@@ -3,6 +3,16 @@ variable "region" {
   default     = "eu-west-3"
 }
 
+variable "aws_access_key_id" {
+  description = "AWS Access Key Id"
+  sensitive   = true
+}
+
+variable "aws_secret_access_key" {
+  description = "AWS Sectret Access Key"
+  sensitive   = true
+}
+
 variable "iam_profile" {
   description = "IAM Profile to run terraform with"
   default     = "default"

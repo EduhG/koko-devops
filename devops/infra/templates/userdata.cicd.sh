@@ -10,12 +10,23 @@ sudo yum install jenkins -y
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 
-sudo amazon-linux-extras install -y ansible2
+sudo amazon-linux-extras install -y ansible2 python-boto3
 
-cat > /home/ec2-user/.ssh/aws-key <<EOF
+cat > ~/.ssh/aws-key <<EOF
 ${private_key}
 EOF
 
-chmod 400 /home/ec2-user/.ssh/aws-key
+chmod 400 ~/.ssh/aws-key
 ssh-agent bash
-ssh-add /home/ec2-user/.ssh/aws-key
+ssh-add ~/.ssh/aws-key
+
+cat > ~/.aws/config <<EOF
+[default]
+region = ${region}
+EOF
+
+cat > ~/.aws/credentials <<EOF
+[default]
+aws_access_key_id = ${aws_access_key_id}
+aws_secret_access_key = ${aws_secret_access_key}
+EOF
