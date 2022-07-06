@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, session
+from datetime import timedelta
+from time import sleep
 
 VERSION = "0.1.0"
 
@@ -14,8 +16,18 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
 
+    @app.before_request
+    def make_session_permanent():
+        session.permanent = True
+        app.permanent_session_lifetime = timedelta(seconds=5)
+
     @app.route("/", methods=["GET"])
     def version():
+        args = request.args
+        runtime = int(args.get("runtime", default=0, type=int))
+        if runtime > 0:
+            sleep(runtime)
+
         return jsonify({"version": VERSION})
 
     return app
