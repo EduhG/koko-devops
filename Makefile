@@ -6,3 +6,9 @@ prod:
 
 test:
 	pytest -v
+
+plan:
+	cd devops/infra && terraform plan
+
+apply:
+	cd devops/infra && terraform apply
