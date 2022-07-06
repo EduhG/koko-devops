@@ -32,3 +32,13 @@ variable "volume_size" {
   type        = number
   default     = 20
 }
+
+variable "master_instance_type" {
+  description = "EC2 instance type"
+  default     = "t3a.micro"
+}
+
+variable "worker_instance_type" {
+  description = "EC2 instance type"
+  default     = "t3a.micro"
+}

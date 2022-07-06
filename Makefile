@@ -12,3 +12,6 @@ plan:
 
 apply:
 	cd devops/infra && terraform apply
+
+ssh-cicd:
+	ssh ec2-user@$(shell terraform -chdir=devops/infra output -raw cicd-server-ip)
