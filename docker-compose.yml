@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  app:
+    image: koko-devops-app
+    container_name: koko-devops-app
+    restart: on-failure
+    build:
+      context: .
+    command: python manage.py
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env
