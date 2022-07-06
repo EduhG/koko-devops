@@ -35,6 +35,8 @@ data "template_cloudinit_config" "cicd_config" {
 
   part {
     content_type = "text/x-shellscript"
-    content      = templatefile("./templates/userdata.cicd.sh", {})
+    content = templatefile("./templates/userdata.cicd.sh", {
+      private_key = file(var.private_key_path)
+    })
   }
 }

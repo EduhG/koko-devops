@@ -22,6 +22,10 @@ variable "public_key_path" {
   description = "Location of public ssh key to use"
 }
 
+variable "private_key_path" {
+  description = "Location of private ssh key to use in cicd server"
+}
+
 variable "cicd_instance_type" {
   description = "EC2 instance type"
   default     = "t3a.micro"

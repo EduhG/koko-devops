@@ -8,4 +8,4 @@ apply:
 	terraform apply
 
 ssh-cicd:
-	ssh ec2-user@$(shell terraform -chdir=. output -raw cicd-server-ip)
+	ssh -i ~/.ssh/aws-key ec2-user@$(shell terraform -chdir=. output -raw cicd-server-ip)
