@@ -1,9 +1,7 @@
 pipeline {
-    agent none
+    agent { label: "linux" }
     
     stages {
-        agent any
-
         stage("Build Docker Image") {
             steps {
                 script{
