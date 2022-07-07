@@ -10,11 +10,13 @@ sudo wget -O /etc/yum.repos.d/jenkins.repo \
     https://pkg.jenkins.io/redhat-stable/jenkins.repo
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 sudo yum upgrade
-sudo amazon-linux-extras install java-openjdk11 -y
-sudo yum install jenkins -y
+sudo amazon-linux-extras install -y java-openjdk11
+sudo yum install -y jenkins
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 sudo usermod -aG docker jenkins
+sudo usermod -aG ec2-user jenkins
+sudo systemctl restart jenkins
 
 sudo amazon-linux-extras install -y ansible2
 
@@ -37,6 +39,6 @@ aws_access_key_id = ${aws_access_key_id}
 aws_secret_access_key = ${aws_secret_access_key}
 EOF
 
-sudo chown ec2-user: /home/ec2-user/.ssh/aws-key
-sudo chown ec2-user: /home/ec2-user/.aws/credentials
-sudo chown ec2-user: /home/ec2-user/.aws/config
+sudo chown :ec2-user /home/ec2-user/.ssh/aws-key
+sudo chown :ec2-user /home/ec2-user/.aws/credentials
+sudo chown :ec2-user /home/ec2-user/.aws/config
