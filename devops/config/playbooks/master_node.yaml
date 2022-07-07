@@ -1,0 +1,32 @@
+---
+- hosts: master
+  become: yes
+  tasks:
+    - name: initializing  kubeadm service
+      shell: "kubeadm init --pod-network-cidr=10.240.0.0/16  --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
+      ignore_errors: yes
+
+    - name: create .kube directory
+      file:
+        path: /home/ec2-user/.kube
+        state: directory
+        mode: "0755"
+
+    - name: Copy file with owner and permissions
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ec2-user/.kube/config
+        remote_src: yes
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Setting up Overlay Network with CNI Plugin Flannel
+      shell: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+
+    - name: Generate the token
+      shell: "kubeadm token create --print-join-command"
+      register: token
+
+    - name: Print the token
+      debug:
+        var: token.stdout_lines
