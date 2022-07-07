@@ -17,7 +17,6 @@
         src: /etc/kubernetes/admin.conf
         dest: /home/ec2-user/.kube/config
         remote_src: yes
-        owner: ec2-user
         group: ec2-user
 
     - name: install Pod network
