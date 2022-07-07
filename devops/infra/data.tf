@@ -35,6 +35,21 @@ data "template_cloudinit_config" "cicd_config" {
 
   part {
     content_type = "text/x-shellscript"
-    content      = templatefile("./templates/userdata.cicd.sh", {})
+    content = templatefile("./templates/userdata.cicd.sh", {
+      private_key           = file(var.private_key_path)
+      region                = var.region
+      aws_access_key_id     = var.aws_access_key_id
+      aws_secret_access_key = var.aws_secret_access_key
+    })
+  }
+}
+
+data "template_cloudinit_config" "k8s_config" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content_type = "text/x-shellscript"
+    content      = templatefile("./templates/userdata.k8s.sh", {})
   }
 }
