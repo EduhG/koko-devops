@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo yum update -y && sudo yum install -y wget python-boto3 docker
+sudo yum update -y && sudo yum install -y wget git python-boto3 docker
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 sudo usermod -aG docker ec2-user
@@ -14,6 +14,7 @@ sudo amazon-linux-extras install java-openjdk11 -y
 sudo yum install jenkins -y
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
+sudo usermod -aG docker jenkins
 
 sudo amazon-linux-extras install -y ansible2
 
