@@ -43,3 +43,13 @@ data "template_cloudinit_config" "cicd_config" {
     })
   }
 }
+
+data "template_cloudinit_config" "k8s_config" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content_type = "text/x-shellscript"
+    content      = templatefile("./templates/userdata.k8s.sh", {})
+  }
+}
