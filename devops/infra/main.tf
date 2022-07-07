@@ -131,9 +131,6 @@ resource "aws_instance" "master" {
     volume_size = var.volume_size
   }
 
-  user_data_replace_on_change = true
-  user_data                   = data.template_cloudinit_config.k8s_config.rendered
-
   tags = merge(local.tags, {
     Name = "${var.project_title} Cluster"
     Role = "Master"
