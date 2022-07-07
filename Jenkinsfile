@@ -2,6 +2,8 @@ pipeline {
     agent none
     
     stages {
+        agent any
+
         stage("Build Docker Image") {
             steps {
                 script{
