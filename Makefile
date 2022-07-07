@@ -14,4 +14,7 @@ apply:
 	cd devops/infra && terraform apply
 
 ssh-cicd:
-	ssh ec2-user@$(shell terraform -chdir=devops/infra output -raw cicd-server-ip)
+	ssh -i ~/.ssh/aws-key ec2-user@$(shell terraform -chdir=devops/infra output -raw cicd-server-ip)
+
+ssh-master:
+	ssh -i ~/.ssh/aws-key ec2-user@$(shell terraform -chdir=devops/infra output -raw master-server-ip)
