@@ -1,19 +1,11 @@
 pipeline {
     agent none
-
-    environment {
-        IMAGE_NAME = credentials("koko-devops-image-name")
-        GIT_REPO_LINK = credentials("koko-devops-git-repo-link")
-        GIT_CREDENTIALS_ID = credentials("koko-devops-git-credentials-id")
-        ECR_BASE_URL = credentials("koko-devops-ecr-base-url")
-        AWS_REGION = credentials("koko-devops-aws-region")
-    }
     
     stages {
         stage('Clone Repo') {
             agent any
-            script {
-                checkout scm
+            steps {
+                git branch: 'main', credentialsId: 'koko-devops-git-credentials-id', url: 'https://github.com/EduhG/koko-devops.git'
             }
         }
         
@@ -24,21 +16,21 @@ pipeline {
                 stage("Build Docker Image") {
                     steps {
                         script{
-                            app = docker.build("${IMAGE_NAME}")
+                            app = docker.build("koko-devops-app-test")
                         }
                     }
                 }
                
                 stage("Run Tests") {
                     steps {
-                        sh 'docker run --rm ${IMAGE_NAME} pytest -v'
+                        sh 'docker run --rm koko-devops-app-test pytest -v'
                     }
                 }
                 
                 stage("Push to ECR") {
                     steps {
                         script{
-                            docker.withRegistry('${ECR_BASE_URL}/${IMAGE_NAME}', 'ecr:${AWS_REGION}:koko-devops-aws-credentials') {
+                            docker.withRegistry('https://280052623973.dkr.ecr.eu-west-3.amazonaws.com/koko-devops-app-test', 'ecr:eu-west-3:koko-devops-aws-credentials') {
                                 app.push("${env.BUILD_NUMBER}")
                                 app.push("latest")
                             }
