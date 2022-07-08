@@ -146,3 +146,22 @@ The deployed application and all its resources can be destroyed using terraform 
 ```
 terraform destroy
 ```
+
+
+## Approach
+
+To easily ccreate and destroy resources, `terraform` is the defactor tool. Its easy to use and is cloud angostic.
+
+To configure the created ec2 instances, i've used `ansible` as it handles this more efficiently since it fails if an error happens.
+
+Some configuration has been done using `cloud init`, especially for the CI/CD server majorly because i've assumed this will be running from scratch. The only thing the user needs is terraform to be installed.
+
+For the CI/CD pipelines i've used `jenkins` as its easy to install, setup and configure. The wide range of plugins make it easy to intergrate with any other provider.
+
+Finally the app is deployed in a kubernetes cluster that id fully configured by the CI/CD pipeline.
+
+## Improvements
+
+Increase the number of node in the cluster. This will make the entire process automated as the user wont need to ssh into the master node to mark it as tainted.
+
+Lastly, configuring jenkins can be quite tedious, I can probably make this easier(account setup and plugin installation) by using docker and a custom jenkins build.
