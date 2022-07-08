@@ -33,9 +33,6 @@
         chdir: $HOME
         creates: pod_network_setup.txt
 
-    - name: Remove master node taint (to allow scheduling pods on master)
-      shell: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-
     - name: Generate the token
       shell: "kubeadm token create --print-join-command"
       register: token
