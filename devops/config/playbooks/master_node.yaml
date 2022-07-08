@@ -19,6 +19,12 @@
         remote_src: yes
         group: ec2-user
 
+    - name: Copy config to ansible controller
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ec2-user/.kube/config
+        flat: yes
+
     - name: install Pod network
       become: yes
       become_user: ec2-user
