@@ -42,6 +42,7 @@ sudo chown ec2-user: /home/ec2-user/.ssh/aws-key
 sudo chown ec2-user: /home/ec2-user/.aws/credentials
 sudo chown ec2-user: /home/ec2-user/.aws/config
 
+sudo mkdir /var/lib/jenkins/.kube
 sudo cp -r /home/ec2-user/.ssh /var/lib/jenkins
 sudo cp -r /home/ec2-user/.aws /var/lib/jenkins
 sudo chown -R jenkins:jenkins /var/lib/jenkins
@@ -55,5 +56,3 @@ gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
 sudo yum install -y kubectl
-
-echo "export KUBECONFIG=/home/.kube/config" >> ~/.bashrc
