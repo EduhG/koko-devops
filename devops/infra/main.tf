@@ -85,7 +85,7 @@ resource "aws_instance" "cicd" {
     volume_size = var.volume_size
   }
 
-  user_data_replace_on_change = true
+  user_data_replace_on_change = false
   user_data                   = data.template_cloudinit_config.cicd_config.rendered
 
   tags = merge(local.tags, { Name = "${var.project_title} CICD Server" })
@@ -109,6 +109,14 @@ resource "aws_security_group" "cluster_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.cicd_sg.id]
     description     = "Allow access to kubernetes from CI/CD SG"
+  }
+
+  ingress {
+    from_port       = 30007
+    to_port         = 30007
+    protocol        = "tcp"
+    security_groups = ["0.0.0.0/0"]
+    description     = "Allow web access to app"
   }
 
   egress {
