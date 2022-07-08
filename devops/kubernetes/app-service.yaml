@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: koko-devops-service
 spec:
-  type: NordPort
+  type: NodePort
   ports:
     - port: 5000
       targetPort: 5000
