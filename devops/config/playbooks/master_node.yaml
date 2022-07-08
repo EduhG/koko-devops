@@ -19,18 +19,17 @@
         remote_src: yes
         group: ec2-user
 
-    - name: Copy file with owner and permissions
-      copy:
-        src: /etc/kubernetes/admin.conf
-        dest: /var/lib/jenkins/.kube/config
-        remote_src: yes
-        group: jenkins
-        owner: jenkins
-
     - name: Copy config to ansible controller
       fetch:
         src: /etc/kubernetes/admin.conf
         dest: /home/ec2-user/.kube/config
+        flat: yes
+
+    - name: Copy config to ansible controller
+      become_user: jenkins
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: /var/lib/jenkins/.kube/config
         flat: yes
 
     - name: install Pod network
