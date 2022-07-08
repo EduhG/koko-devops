@@ -79,7 +79,7 @@ If the location above is unavaiable give it a few more minutes.
 ### Configure Jenkins
 Open your brouser and visit the following url `http://CICD_SERVER_IP:8080`. On this page paste the jenkins master password we copied from the last step. Complete the initial jenkins setup of creating an admin user and installing the suggested plugins.
 
-After installing, the suggested plugins, we will install 3 more plugins that will be used to run our CI/CD pipeline. In your jenkins instance go to `Manage plugins` and install the following plugins `CloudBees AWS Credentials`, `Amazon ECR`, `Docker Pipeline`. You can search for these plugins in the Available tab. After they're installed, they appear in the Installed tab.
+After installing, the suggested plugins, we will install 4 more plugins that will be used to run our CI/CD pipeline. In your jenkins instance go to `Manage plugins` and install the following plugins `CloudBees AWS Credentials`, `Amazon ECR`, `Docker Pipeline`and `Multibranch Scan Webhook Trigger`. You can search for these plugins in the Available tab. After they're installed, they appear in the Installed tab.
 
 Next we need to configure some credentials that jenkins will use to run our pipelines. In your Jenkins instance, go to <b>Manage Jenkins</b>, then <b>Manage Credentials</b>, then <b>Jenkins Store</b>, then <b>Global Credentials (unrestricted)</b>, and finally <b>Add Credentials</b>.
 Fill in the following fields, leaving everything else as default:
@@ -109,6 +109,8 @@ Next configure `Behaviors`. Leave the defaults, then add `Filter by name (with w
 
 Next add `Check out to matching local branch`, `Clean before checkout` and `Clean after checkout`
 
+Next under `Scan Repository Triggers` select `Scan by webhook`. Set the trigger token(`WEBHOOK_TOKEN`)
+
 Finally click Save.
 
 This will scan the github repository configuring pipelines for the two branches we specified.
@@ -117,16 +119,9 @@ The `main` branch build will configure, install kubenetes cluster and finally la
 
 ### Automatically trigger pipeline
 
-Finally to automatically trigger the build pipeline when an update happens on the github repository, configure github credentials.
+Finally to automatically trigger the build pipeline when an update happens on the github repository, configure github webhook.
 
-Firt creat a `Personal Access Token` in github.
-
-Next navigate <b>Manage Credentials</b> in your jenkins instance then create another credential. This time choose `Kind` to be `Username/Password`. Under username enter your github username, for password enter the generated `Personal Access Token`
-
-Once this has been created, navigate to the created build pipeline, and update the github credentials under `Branch Sources`.
-
-The build should automatically trigger once more and every other time a change happens on github.
-
+In your github repository navigate to Repository Webhooks, then create a webhook with the url `http://CICD_SERVER_IP:8080//multibranch-webhook-trigger/invoke?token=WEBHOOK_TOKEN`. This will automatically trigger our pipeline when a change happens in github repo.
 
 ### Configure Master Node
 Since we are using a single instance for our kubernetes cluster we need to configure kubernetes to allow pod deployment on the master node.
