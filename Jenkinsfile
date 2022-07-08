@@ -32,16 +32,20 @@ pipeline {
     }
 
     stage('Configure Kubernetes') {
-            agent any
-            
-            steps {
-                dir('devops/config') {
-                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/ping.yaml'
-                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/dependencies.yaml'
-                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/master_node.yaml'
-                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/worker_nodes.yaml'
-                }
+        agent any
+
+        when {
+            branch "main"
+        }
+        
+        steps {
+            dir('devops/config') {
+                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/ping.yaml'
+                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/dependencies.yaml'
+                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/master_node.yaml'
+                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/worker_nodes.yaml'
             }
         }
+    }
     
 }
