@@ -20,12 +20,6 @@
         group: ec2-user
 
     - name: Copy config to ansible controller
-      fetch:
-        src: /etc/kubernetes/admin.conf
-        dest: /home/ec2-user/.kube/config
-        flat: yes
-
-    - name: Copy config to ansible controller
       become_user: jenkins
       fetch:
         src: /etc/kubernetes/admin.conf
