@@ -20,6 +20,8 @@
         group: ec2-user
 
     - name: Copy config to ansible controller
+      become: yes
+      become_user: ec2-user
       fetch:
         src: /etc/kubernetes/admin.conf
         dest: /home/ec2-user/.kube/config
