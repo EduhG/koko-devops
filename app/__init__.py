@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, session
 from datetime import timedelta
 from time import sleep
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 
 def create_app() -> Flask:
