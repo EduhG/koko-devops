@@ -22,9 +22,10 @@
     - name: Copy file with owner and permissions
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/.kube/config
+        dest: /var/lib/jenkins/.kube/config
         remote_src: yes
-        group: ec2-user
+        group: jenkins
+        user: jenkins
 
     - name: Copy config to ansible controller
       fetch:
