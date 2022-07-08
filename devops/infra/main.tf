@@ -1,6 +1,7 @@
 provider "aws" {
-  region  = var.region
-  profile = var.iam_profile
+  region     = var.region
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
 }
 
 resource "aws_default_vpc" "default" {}
@@ -100,6 +101,14 @@ resource "aws_security_group" "cluster_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow SSH from anywhere"
+  }
+
+  ingress {
+    from_port       = 6443
+    to_port         = 6443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.cicd_sg.id]
+    description     = "Allow access to kubernetes from CI/CD SG"
   }
 
   egress {
