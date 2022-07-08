@@ -47,5 +47,21 @@ pipeline {
             }
         }
     }
+
+    stage('Deploy application') {
+        agent any
+
+        when {
+            branch "main"
+        }
+        
+        steps {
+            dir('devops/kubernetes') {
+                sh 'kubectl apply -f app-deployment.yaml'
+                sh 'kubectl apply -f app-service.yaml'
+                sh 'kubectl apply -f app-ingress.yaml'
+            }
+        }
+    }
     
 }
