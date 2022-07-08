@@ -29,38 +29,37 @@ pipeline {
                 }
             }
         }
-    }
 
-    stage('Configure Kubernetes') {
-        agent any
+        stage('Configure Kubernetes') {
+            agent any
 
-        when {
-            branch "main"
+            when {
+                branch "main"
+            }
+            
+            steps {
+                dir('devops/config') {
+                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/ping.yaml'
+                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/dependencies.yaml'
+                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/master_node.yaml'
+                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/worker_nodes.yaml'
+                }
+            }
         }
-        
-        steps {
-            dir('devops/config') {
-                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/ping.yaml'
-                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/dependencies.yaml'
-                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/master_node.yaml'
-                sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/worker_nodes.yaml'
+
+        stage('Deploy application') {
+            agent any
+
+            when {
+                branch "main"
+            }
+            
+            steps {
+                dir('devops/kubernetes') {
+                    sh 'kubectl apply -f app-deployment.yaml'
+                    sh 'kubectl apply -f app-service.yaml'
+                }
             }
         }
     }
-
-    stage('Deploy application') {
-        agent any
-
-        when {
-            branch "main"
-        }
-        
-        steps {
-            dir('devops/kubernetes') {
-                sh 'kubectl apply -f app-deployment.yaml'
-                sh 'kubectl apply -f app-service.yaml'
-            }
-        }
-    }
-    
 }
