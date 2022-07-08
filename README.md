@@ -144,3 +144,10 @@ kubectl taint node --all node-role.kubernetes.io/master-
 ```
 
 After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30007`
+
+
+### Tearing down resources
+The deployed application and all its resources can be destroyed using terraform with the following command
+```
+terraform destroy
+```
