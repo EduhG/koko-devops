@@ -3,7 +3,7 @@
   become: yes
   tasks:
     - name: initializing  kubeadm service
-      shell: "kubeadm init --pod-network-cidr=10.240.0.0/16  --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
+      shell: "kubeadm init --pod-network-cidr=10.244.0.0/16  --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
       ignore_errors: yes
 
     - name: create .kube directory
@@ -19,6 +19,19 @@
         remote_src: yes
         group: ec2-user
 
+    - name: Copy file with owner and permissions
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/.kube/config
+        remote_src: yes
+        group: ec2-user
+
+    - name: Copy config to ansible controller
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ec2-user/.kube/config
+        flat: yes
+
     - name: install Pod network
       become: yes
       become_user: ec2-user
@@ -26,6 +39,9 @@
       args:
         chdir: $HOME
         creates: pod_network_setup.txt
+
+    - name: Remove master node taint (to allow scheduling pods on master)
+      shell: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 
     - name: Generate the token
       shell: "kubeadm token create --print-join-command"
