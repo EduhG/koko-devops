@@ -25,7 +25,7 @@
         dest: /var/lib/jenkins/.kube/config
         remote_src: yes
         group: jenkins
-        user: jenkins
+        owner: jenkins
 
     - name: Copy config to ansible controller
       fetch:
