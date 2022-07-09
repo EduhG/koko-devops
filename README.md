@@ -103,7 +103,7 @@ Create a jenkins multibranch pipeline. Navigate to <b>Dashboard</b> then <b>Crea
 
 Next fill in the form. Display Name can be same name as the github-repo name.
 
-Next under `Branch Sources` select github, then add the url to your github repository for this project.
+Next under `Branch Sources` select `Git`, then add the url to your github repository for this project.
 
 Next configure `Behaviors`. Leave the defaults, then add `Filter by name (with wildcards)`. In the include field add `main feature/*`. This will make the pipeline run whenever there are changes to the two branches; `main` and `feature/*`.
 

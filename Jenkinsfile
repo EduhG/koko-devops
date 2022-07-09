@@ -34,7 +34,7 @@ pipeline {
             }
         }
 
-        stage('Configure Kubernetes') {
+        stage('Configure Kubernetes & Deploy application') {
             agent any
 
             when {
@@ -56,6 +56,10 @@ pipeline {
 
             when {
                 branch "main"
+            }
+
+            environment {
+                KUBECONFIG = "/opt/shared/kubernetes/admin.conf"
             }
             
             steps {

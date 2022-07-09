@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: koko-devops-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 5000
       targetPort: 5000
+      nodePort: 30007
   selector:
     app: koko-devops-app
