@@ -47,6 +47,7 @@
       delegate_to: localhost
 
     - name: Copy kube config to local config
+      become: no
       local_action: copy content="{{ kube_config }}" dest="/opt/shared/kubernetes/admin.conf"
 
     # - name: Set kubecongif environment variable
