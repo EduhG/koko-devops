@@ -137,10 +137,12 @@ make ssh-master
 
 Once logged in update kubernetes using
 ```
-kubectl taint node --all node-role.kubernetes.io/control-plane-
+sudo kubectl taint node --all node-role.kubernetes.io/control-plane-
 
-kubectl taint node --all node-role.kubernetes.io/master-
+sudo kubectl taint node --all node-role.kubernetes.io/master-
 ```
+
+We are using `sudo` because `$HOME/.kube/config` is configured in the root user.
 
 After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30007`
 
