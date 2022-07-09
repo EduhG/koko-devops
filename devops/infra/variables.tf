@@ -56,3 +56,8 @@ variable "worker_instance_type" {
   description = "EC2 instance type"
   default     = "t3a.micro"
 }
+
+variable "workers_count" {
+  description = "Number of workers to launch"
+  default     = 0
+}

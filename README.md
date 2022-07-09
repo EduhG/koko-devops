@@ -55,6 +55,7 @@ aws_secret_access_key = "SECRET_ACCESS_KEY_CREATED_ABOVE"
 cicd_instance_type    = "t3a.small"
 master_instance_type  = "t3a.medium"
 worker_instance_type  = "t3a.micro"
+workers_count         = 0
 ```
 
 Create the required resources. Use a helper command from the Makefile
@@ -141,11 +142,11 @@ kubectl taint node --all node-role.kubernetes.io/control-plane-
 kubectl taint node --all node-role.kubernetes.io/master-
 ```
 
-> Alternatively, you can increament the count option of workers in `$(pwd)/devops/infra/main.tf`. This will create extra ec2 instances.
+After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30007`
+
+> Alternatively, you can increament the count option of workers in `$(pwd)/devops/infra/terraform.tfvars`. This will create extra ec2 instances.
 
 > Then downgrade the ec2 instance for the master cluster to `t3a.micro` since we wont be deploying our aplication on the master.
-
-After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30007`
 
 
 ### Tearing down resources

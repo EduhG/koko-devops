@@ -156,7 +156,7 @@ resource "aws_instance" "master" {
 }
 
 resource "aws_instance" "workers" {
-  count = 1
+  count = var.workers_count
   ami   = data.aws_ami.amazon_linux_x86_64.id
 
   instance_type               = var.worker_instance_type
