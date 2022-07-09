@@ -11,11 +11,16 @@
       set_fact:
         join_command: "{{ join_command_raw.stdout_lines[0] }}"
 
+    - name: Print the token
+      debug:
+        msg: "{{ join_command_raw.stdout }}"
+
 - hosts: workers
   become: yes
   tasks:
     - name: join cluster
-      shell: "{{ hostvars['master'].join_command }} --ignore-preflight-errors all  >> node_joined.txt"
+      shell: "{{ hostvars[item]['join_command'] }} --ignore-preflight-errors all >> join_cluster.txt"
+      with_items: "{{ groups['master'] }}"
       args:
         chdir: $HOME
-        creates: node_joined.txt
+        creates: join_cluster.txt

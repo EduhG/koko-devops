@@ -79,20 +79,20 @@ If the location above is unavaiable give it a few more minutes.
 ### Configure Jenkins
 Open your brouser and visit the following url `http://CICD_SERVER_IP:8080`. On this page paste the jenkins master password we copied from the last step. Complete the initial jenkins setup of creating an admin user and installing the suggested plugins.
 
-After installing, the suggested plugins, we will install 4 more plugins that will be used to run our CI/CD pipeline. In your jenkins instance go to `Manage plugins` and install the following plugins `CloudBees AWS Credentials`, `Amazon ECR`, `Docker Pipeline`and `Multibranch Scan Webhook Trigger`. You can search for these plugins in the Available tab. After they're installed, they appear in the Installed tab.
+After installing, the suggested plugins, we will install 4 more plugins that will be used to run our CI/CD pipeline. In your jenkins instance go to `Manage plugins` and install the following plugins `CloudBees AWS Credentials`, `Amazon ECR`, `Docker Pipeline` and `Multibranch Scan Webhook Trigger`. You can search for these plugins in the Available tab. After they're installed, they appear in the Installed tab.
 
 Next we need to configure some credentials that jenkins will use to run our pipelines. In your Jenkins instance, go to <b>Manage Jenkins</b>, then <b>Manage Credentials</b>, then <b>Jenkins Store</b>, then <b>Global Credentials (unrestricted)</b>, and finally <b>Add Credentials</b>.
 Fill in the following fields, leaving everything else as default:
 
 * Kind - AWS credentials
-* ID - koko-devops-aws-credentials
+* ID - aws-credentials
 * Access Key ID - Access Key ID from earlier
 * Secret Access Key - Secret Access Key from earlier
 
 Click OK to save.
 
 ### Update Jenkinsfile
-Next update jenkinsfile if you used a different ID when creating AWS Credentials change `koko-devops-aws-credentials` in the jenkinsfile to the one you created.
+Next update jenkinsfile if you used a different ID when creating AWS Credentials change `aws-credentials` in the jenkinsfile to the one you created.
 
 Update the docker registry url also to match the one that was created when you ran terraform init, you can get it from the outputs section.
 

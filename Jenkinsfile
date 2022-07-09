@@ -26,7 +26,7 @@ pipeline {
             }
             steps {
                 script{
-                    docker.withRegistry('https://280052623973.dkr.ecr.eu-west-3.amazonaws.com/koko-devops-app', 'ecr:eu-west-3:koko-devops-aws-credentials') {
+                    docker.withRegistry('https://280052623973.dkr.ecr.eu-west-3.amazonaws.com/koko-devops-app', 'ecr:eu-west-3:aws-credentials') {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
@@ -62,6 +62,7 @@ pipeline {
                 dir('devops/kubernetes') {
                     sh 'kubectl apply -f app-deployment.yaml'
                     sh 'kubectl apply -f app-service.yaml'
+                    sh 'kubectl port-forward service/koko-devops-service 80:5000'
                     sh 'kubectl rollout restart deployment koko-devops-app'
                 }
             }

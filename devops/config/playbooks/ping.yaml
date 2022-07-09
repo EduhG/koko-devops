@@ -1,5 +1,5 @@
 - name: Ping dynamic inventory
-  hosts: master
+  hosts: master, workers
 
   tasks:
     - name: ping dynamic inventory

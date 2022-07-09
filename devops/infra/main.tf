@@ -107,6 +107,7 @@ resource "aws_security_group" "cluster_sg" {
     from_port       = 6443
     to_port         = 6443
     protocol        = "tcp"
+    cidr_blocks     = ["172.31.0.0/16"]
     security_groups = [aws_security_group.cicd_sg.id]
     description     = "Allow access to kubernetes from CI/CD SG"
   }
@@ -149,8 +150,31 @@ resource "aws_instance" "master" {
   }
 
   tags = merge(local.tags, {
-    Name = "${var.project_title} Cluster"
+    Name = "${var.project_title} Master Node"
     Role = "Master"
+  })
+}
+
+resource "aws_instance" "workers" {
+  count = 1
+  ami   = data.aws_ami.amazon_linux_x86_64.id
+
+  instance_type               = var.worker_instance_type
+  subnet_id                   = data.aws_subnet.default.id
+  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.profile.id
+
+  vpc_security_group_ids = [aws_security_group.cluster_sg.id]
+  key_name               = aws_key_pair.ssh_key.key_name
+
+  root_block_device {
+    volume_type = "gp3"
+    volume_size = var.volume_size
+  }
+
+  tags = merge(local.tags, {
+    Name = "${var.project_title} Worker Node"
+    Role = "Worker"
   })
 }
 
