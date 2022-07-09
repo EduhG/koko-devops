@@ -54,6 +54,7 @@ aws_access_key_id     = "ACCESS_KEY_ID_CREATED_ABOVE"
 aws_secret_access_key = "SECRET_ACCESS_KEY_CREATED_ABOVE"
 cicd_instance_type    = "t3a.small"
 master_instance_type  = "t3a.medium"
+worker_instance_type  = "t3a.micro"
 ```
 
 Create the required resources. Use a helper command from the Makefile
@@ -131,12 +132,18 @@ SSH into the master node
 make ssh-master
 ```
 
+> You can skip this step and check the alternative method below.
+
 Once logged in update kubernetes using
 ```
 kubectl taint node --all node-role.kubernetes.io/control-plane-
 
 kubectl taint node --all node-role.kubernetes.io/master-
 ```
+
+> Alternatively, you can increament the count option of workers in `$(pwd)/devops/infra/main.tf`. This will create extra ec2 instances.
+
+> Then downgrade the ec2 instance for the master cluster to `t3a.micro` since we wont be deploying our aplication on the master.
 
 After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30007`
 
@@ -146,7 +153,6 @@ The deployed application and all its resources can be destroyed using terraform 
 ```
 terraform destroy
 ```
-
 
 ## Approach
 

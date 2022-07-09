@@ -66,7 +66,6 @@ pipeline {
                 dir('devops/kubernetes') {
                     sh 'kubectl apply -f app-deployment.yaml'
                     sh 'kubectl apply -f app-service.yaml'
-                    sh 'kubectl port-forward service/koko-devops-service 80:5000'
                     sh 'kubectl rollout restart deployment koko-devops-app'
                 }
             }
