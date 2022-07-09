@@ -40,19 +40,18 @@
         kube_config: "{{ kube_config['content'] | b64decode }}"
 
     - name: Create local kubernetes directory
-      become_user: root
       file:
-        path: /etc/kubernetes
+        path: /opt/shared/kubernetes
         state: directory
       delegate_to: localhost
 
     - name: Copy kube config to local config
-      local_action: copy content="{{ kube_config }}" dest="/etc/kubernetes/admin.conf"
+      local_action: copy content="{{ kube_config }}" dest="/opt/shared/kubernetes/admin.conf"
 
-    - name: Set kubecongif environment variable
-      lineinfile:
-        dest: "/etc/environment"
-        state: present
-        line: "KUBECONFIG=/etc/kubernetes/admin.conf"
-      delegate_to: localhost
+    # - name: Set kubecongif environment variable
+    #   lineinfile:
+    #     dest: "/etc/environment"
+    #     state: present
+    #     line: "KUBECONFIG=/opt/shared/kubernetes/admin.conf"
+    #   delegate_to: localhost
     # =================================================================================

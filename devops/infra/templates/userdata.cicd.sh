@@ -47,6 +47,12 @@ sudo cp -r /home/ec2-user/.ssh /var/lib/jenkins
 sudo cp -r /home/ec2-user/.aws /var/lib/jenkins
 sudo chown -R jenkins:jenkins /var/lib/jenkins
 
+sudo mkdir -p /opt/shared
+sudo chmod -R a+rw /opt/shared
+
+# preset environment variable due to sudo permission issues by jenkins
+sudo sh -c "echo 'KUBECONFIG=/opt/shared/kubernetes/admin.conf' >> /etc/environment"
+
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
