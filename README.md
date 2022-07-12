@@ -150,6 +150,10 @@ After a few minutes we should be able to access the deployed app in the browser 
 
 > Then downgrade the ec2 instance for the master cluster to `t3a.micro` since we wont be deploying our aplication on the master.
 
+### Testing the API
+After you visit the root url(`http://MASTER_SERVER_IP:30007/`), you can test timeout by adding a `runtime` query param to the url. For example `http://MASTER_SERVER_IP:30007/?runtime=35`
+
+This will make the endpoint to timeout after 30 seconds
 
 ### Tearing down resources
 The deployed application and all its resources can be destroyed using terraform with the following command
@@ -170,6 +174,8 @@ For the CI/CD pipelines i've used `jenkins` as its easy to install, setup and co
 Finally the app is deployed in a kubernetes cluster that id fully configured by the CI/CD pipeline.
 
 ## Improvements
+
+Implement monitoring and alerts. This can be done using `Prometheus`.
 
 Increase the number of node in the cluster. This will make the entire process automated as the user wont need to ssh into the master node to mark it as tainted.
 
