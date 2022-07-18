@@ -2,7 +2,7 @@ dev:
 	poetry run python manage.py
 
 prod:
-	poetry run gunicorn manage:app --workers 2 --bind 0.0.0.0:5000 --timeout 30 --log-level=DEBUG
+	poetry run gunicorn -c python:app.config.gunicorn manage:app
 
 test:
 	pytest -v

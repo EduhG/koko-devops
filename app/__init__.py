@@ -13,7 +13,7 @@ def create_app() -> Flask:
     """
 
     app = Flask(__name__)
-    app.config.from_pyfile("config.py")
+    app.config.from_pyfile("config/settings.py")
 
     @app.route("/", methods=["GET"])
     def version():

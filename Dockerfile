@@ -37,4 +37,4 @@ USER $USERNAME
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--workers=2", "--timeout=30", "--log-level=info", "--bind=0.0.0.0:5000", "manage:app"]
+CMD ["gunicorn", "-c", "python:app.config.gunicorn", "manage:app"]
