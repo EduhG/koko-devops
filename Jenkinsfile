@@ -64,8 +64,8 @@ pipeline {
             
             steps {
                 dir('devops/kubernetes') {
-                    sh 'kubectl apply -f app-deployment.yaml'
-                    sh 'kubectl apply -f app-service.yaml'
+                    sh 'kubectl apply -f app/deployment.yaml'
+                    sh 'kubectl apply -f app/service.yaml'
                     sh 'kubectl rollout restart deployment koko-devops-app'
                 }
             }
