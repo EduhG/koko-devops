@@ -27,6 +27,21 @@
         chdir: $HOME
         creates: pod_network_setup.txt
 
+    - name: Install MetalLB
+      shell: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.3/config/manifests/metallb-native.yaml >> metallb_setup.txt
+      args:
+        chdir: $HOME
+        creates: metallb_setup.txt
+
+    - name: Copy MetalLB ConfigMap
+      copy: src=metallb-config.yaml dest=/tmp/
+
+    - name: Configure MetalLB
+      shell: kubectl apply -f /tmp/metallb-config.yaml >> metallb_config.txt
+      args:
+        chdir: $HOME
+        creates: metallb_config.txt
+
     # =================================================================================
     # To be able to run kubectl from jenkins controller
     # =================================================================================
