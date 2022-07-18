@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo yum update -y && sudo yum install -y wget git python-boto3 docker
+sudo yum update -y && sudo yum install -y wget git python-boto3 docker curl
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 sudo usermod -aG docker ec2-user
@@ -16,6 +16,10 @@ sudo systemctl enable jenkins
 sudo systemctl start jenkins
 sudo usermod -aG docker jenkins
 sudo systemctl restart jenkins
+
+sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+sudo chmod 700 get_helm.sh
+sudo ./get_helm.sh
 
 sudo amazon-linux-extras install -y ansible2
 
