@@ -47,6 +47,8 @@ pipeline {
                     sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/dependencies.yaml'
                     sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/master_node.yaml'
                     sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/worker_nodes.yaml'
+                    // This is fo quick testing. It should be disabled in prod
+                    sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/taint_master.yaml'
                 }
             }
         }

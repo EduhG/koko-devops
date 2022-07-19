@@ -1,0 +1,10 @@
+---
+- hosts: master
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Taint Master
+      shell: kubectl taint node --all node-role.kubernetes.io/master-
+
+    - name: Taint Controll Plane
+      shell: kubectl taint node --all node-role.kubernetes.io/control-plane-
