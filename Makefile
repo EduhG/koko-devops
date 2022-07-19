@@ -13,6 +13,9 @@ plan:
 apply:
 	cd devops/infra && terraform apply
 
+destroy:
+	cd devops/infra && terraform destroy
+
 ssh-cicd:
 	ssh -i ~/.ssh/aws-key ec2-user@$(shell terraform -chdir=devops/infra output -raw cicd-server-ip)
 

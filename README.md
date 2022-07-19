@@ -144,14 +144,14 @@ sudo kubectl taint node --all node-role.kubernetes.io/master-
 
 We are using `sudo` because `$HOME/.kube/config` is configured in the root user.
 
-After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30007`
+After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:35000`
 
 > Alternatively, you can increament the count option of workers in `$(pwd)/devops/infra/terraform.tfvars`. This will create extra ec2 instances.
 
 > Then downgrade the ec2 instance for the master cluster to `t3a.micro` since we wont be deploying our aplication on the master.
 
 ### Testing the API
-After you visit the root url(`http://MASTER_SERVER_IP:30007/`), you can test timeout by adding a `runtime` query param to the url. For example `http://MASTER_SERVER_IP:30007/?runtime=35`
+After you visit the root url(`http://MASTER_SERVER_IP:35000/`), you can test timeout by adding a `runtime` query param to the url. For example `http://MASTER_SERVER_IP:35000/?runtime=35`
 
 This will make the endpoint to timeout after 30 seconds
 
