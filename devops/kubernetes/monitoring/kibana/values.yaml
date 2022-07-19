@@ -48,8 +48,8 @@ podAnnotations: {}
 
 resources:
   limits:
-    cpu: "1000m"
-    memory: "2Gi"
+    cpu: "500m"
+    memory: "1Gi"
 
 protocol: http
 
@@ -117,7 +117,7 @@ service:
   type: NodePort
   loadBalancerIP: ""
   port: 5601
-  nodePort: 35601
+  nodePort: 30560
   labels: {}
   annotations:
     {}

@@ -57,3 +57,9 @@
     #     line: "KUBECONFIG=/opt/shared/kubernetes/admin.conf"
     #   delegate_to: localhost
     # =================================================================================
+
+    - name: Create elasticsearch volume
+      file:
+        path: /opt/elasticsearch
+        state: directory
+        mode: 0755

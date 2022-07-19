@@ -113,16 +113,16 @@ resource "aws_security_group" "cluster_sg" {
   }
 
   ingress {
-    from_port   = 35000
-    to_port     = 35000
+    from_port   = 30500
+    to_port     = 30500
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow web access to app"
   }
 
   ingress {
-    from_port   = 35601
-    to_port     = 35601
+    from_port   = 30560
+    to_port     = 30560
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow web access to kibana dashboard"

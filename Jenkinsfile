@@ -84,7 +84,7 @@ pipeline {
                     sh 'helm install logstash ./logstash/'
                     sh 'kubectl apply -f elasticsearch/es-volume.yaml'
                     sh 'helm install elasticsearch ./elasticsearch/'
-                    // sh 'helm install elasticsearch ./elasticsearch/'
+                    sh 'helm install kibana ./kibana/'
                 }
             }
         } 
