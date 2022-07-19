@@ -11,6 +11,7 @@ Sample devops project demonstrating setting up infrustuture automatically, CI/CD
 - [AWS](https://aws.amazon.com/)
 - [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)
+- [ELK Stack](https://www.elastic.co/what-is/elk-stack)
 
 ## Getting Started
 Download the source code of this project from Github
@@ -144,14 +145,14 @@ sudo kubectl taint node --all node-role.kubernetes.io/master-
 
 We are using `sudo` because `$HOME/.kube/config` is configured in the root user.
 
-After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:35000`
+After a few minutes we should be able to access the deployed app in the browser with this url `http://MASTER_SERVER_IP:30500`
 
 > Alternatively, you can increament the count option of workers in `$(pwd)/devops/infra/terraform.tfvars`. This will create extra ec2 instances.
 
 > Then downgrade the ec2 instance for the master cluster to `t3a.micro` since we wont be deploying our aplication on the master.
 
 ### Testing the API
-After you visit the root url(`http://MASTER_SERVER_IP:35000/`), you can test timeout by adding a `runtime` query param to the url. For example `http://MASTER_SERVER_IP:35000/?runtime=35`
+After you visit the root url(`http://MASTER_SERVER_IP:30500/`), you can test timeout by adding a `runtime` query param to the url. For example `http://MASTER_SERVER_IP:30500/?runtime=35`
 
 This will make the endpoint to timeout after 30 seconds
 
@@ -173,10 +174,17 @@ For the CI/CD pipelines i've used `jenkins` as its easy to install, setup and co
 
 Finally the app is deployed in a kubernetes cluster that id fully configured by the CI/CD pipeline.
 
+## Monitoring
+To quickly understand whats going on in production, we have intergrated `Elastic Search`, `Logstash` and `Kibana` with `Filebeat`. Filebeat enables us to aggregate all logs from the running containers and send them to logstash.
+
+We've used kibana to visualize the logs and to quickly monitor for timeout errors.
+
+To view the Kibana Dashboard head over to `http://MASTER_SERVER_IP:30560/`
+
 ## Improvements
 
 Implement monitoring and alerts. This can be done using `Prometheus`.
 
 Increase the number of node in the cluster. This will make the entire process automated as the user wont need to ssh into the master node to mark it as tainted.
 
-Lastly, configuring jenkins can be quite tedious, I can probably make this easier(account setup and plugin installation) by using docker and a custom jenkins build.
+Lastly, configuring jenkins can be quite tedious, I can probably make this easier(account setup and plugin installation) by using docker and a custom jenkins build. We can also automate some aspects using `JCasC`

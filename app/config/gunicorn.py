@@ -6,7 +6,7 @@ basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
 
 
-bind = environ.get("BIND", "0.0.0.0:8000")
+bind = environ.get("BIND", "0.0.0.0:5000")
 workers = int(environ.get("WORKERS", multiprocessing.cpu_count() * 2))
 timeout = int(environ.get("REQUEST_TIMEOUT", 30))
 

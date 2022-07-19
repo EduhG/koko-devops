@@ -49,7 +49,25 @@ pipeline {
                     sh 'ansible-playbook --private-key ~/.ssh/aws-key -u ec2-user -i aws_ec2.yaml playbooks/worker_nodes.yaml'
                 }
             }
-        }       
+        }
+
+        stage('Configure Cluser and App Monitoring') {
+            agent any
+
+            when {
+                branch "main"
+            }
+            
+            steps {
+                dir('devops/kubernetes/monitoring') {
+                    sh 'helm install filebeat ./filebeat/'
+                    sh 'helm install logstash ./logstash/'
+                    sh 'kubectl apply -f elasticsearch/es-volume.yaml'
+                    sh 'helm install elasticsearch ./elasticsearch/'
+                    sh 'helm install kibana ./kibana/'
+                }
+            }
+        }        
 
         stage('Deploy application') {
             agent any
@@ -70,23 +88,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Configure Cluser and App Monitoring') {
-            agent any
-
-            when {
-                branch "main"
-            }
-            
-            steps {
-                dir('devops/kubernetes/monitoring') {
-                    sh 'helm install filebeat ./filebeat/'
-                    sh 'helm install logstash ./logstash/'
-                    sh 'kubectl apply -f elasticsearch/es-volume.yaml'
-                    sh 'helm install elasticsearch ./elasticsearch/'
-                    sh 'helm install kibana ./kibana/'
-                }
-            }
-        } 
     }
 }
