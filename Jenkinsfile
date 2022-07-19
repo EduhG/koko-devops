@@ -57,6 +57,10 @@ pipeline {
             when {
                 branch "main"
             }
+
+            environment {
+                KUBECONFIG = "/opt/shared/kubernetes/admin.conf"
+            }
             
             steps {
                 dir('devops/kubernetes/monitoring') {
